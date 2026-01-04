@@ -1,470 +1,267 @@
-##### 关注我 **X (Twitter)**: [@yourQuantGuy](https://x.com/yourQuantGuy)
+# Web界面使用说明
 
----
+## 功能介绍
 
-**English speakers**: Please read README_EN.md for the English version of this documentation.
+交易机器人Web界面提供了一个可视化的控制面板，用于管理和监控多个交易所的交易机器人。
 
-## 📢 分享说明
+## 主要功能
 
-**欢迎分享本项目！** 如果您要分享或修改此代码，请务必包含对原始仓库的引用。我们鼓励开源社区的发展，但请保持对原作者工作的尊重和认可。
+1. **启动机器人**：通过表单配置参数并启动交易机器人
+2. **监控状态**：实时查看运行中的机器人状态
+3. **停止机器人**：一键停止正在运行的机器人
+4. **查看日志**：实时查看交易日志和历史记录
 
----
+## 快速开始
 
-## 自动交易机器人
+### 方式一：Docker 部署（推荐）
 
-一个支持多个交易所（目前包括 EdgeX, Backpack, Paradex, Aster, Lighter, grvt, Extended）的模块化交易机器人。该机器人实现了自动下单并在盈利时自动平仓的策略，主要目的是取得高交易量。
+#### 前置要求
+- 已安装 Docker
+- 已安装 Docker Compose
 
-## 邀请链接 (获得返佣以及福利)
-
-#### EdgeX: [https://pro.edgex.exchange/referral/QUANT](https://pro.edgex.exchange/referral/QUANT)
-
-永久享受 VIP 1 费率；额外 10% 手续费返佣；10% 额外奖励积分
-
-#### Backpack: [https://backpack.exchange/join/quant](https://backpack.exchange/join/quant)
-
-使用我的推荐链接获得 35% 手续费返佣
-
-#### Paradex: [https://app.paradex.trade/r/quant](https://app.paradex.trade/r/quant)
-
-使用我的推荐链接获得 10% 手续费返佣以及潜在未来福利
-
-#### Aster: [https://www.asterdex.com/zh-CN/referral/5191B1](https://www.asterdex.com/zh-CN/referral/5191B1)
-
-使用我的推荐链接获得 30% 手续费返佣以及积分加成
-
-#### grvt: [https://grvt.io/exchange/sign-up?ref=QUANT](https://grvt.io/exchange/sign-up?ref=QUANT)
-
-获得 1.3x 全网最高的积分加成，未来的手续费返佣（官方预计 10 月中上线），以及即将开始的专属交易竞赛
-
-#### Extended: [https://app.extended.exchange/join/QUANT](https://app.extended.exchange/join/QUANT)
-10%的即时手续费减免；积分加成（官方未公布具体加成公式，但文档里有明确说明，通过官方大使邀请能拿到比自己小号邀请自己更多的分数）
-
-#### ApeX: [https://join.omni.apex.exchange/quant]( https://join.omni.apex.exchange/quant)
-30%返佣; 5%手续费减免; 积分加成; 有资格参与10月20日至11月2日的社区专属交易竞赛，总奖金高达$5500
-
-## 安装
-
-Python 版本要求（最佳选项是 Python 3.10 - 3.12）：
-
-- grvt 要求 python 版本在 3.10 及以上
-- Paradex 要求 python 版本在 3.9 - 3.12
-- 其他交易所需要 python 版本在 3.8 及以上
-
-1. **克隆仓库**：
-
-   ```bash
-   git clone <repository-url>
-   cd perp-dex-tools
-   ```
-
-2. **创建并激活虚拟环境**：
-
-   首先确保你目前不在任何虚拟环境中：
-
-   ```bash
-   deactivate
-   ```
-
-   创建虚拟环境：
-
-   ```bash
-   python3 -m venv env
-   ```
-
-   激活虚拟环境（每次使用脚本时，都需要激活虚拟环境）：
-
-   ```bash
-   source env/bin/activate  # Windows: env\Scripts\activate
-   ```
-
-3. **安装依赖**：
-   首先确保你目前不在任何虚拟环境中：
-
-   ```bash
-   deactivate
-   ```
-
-   激活虚拟环境（每次使用脚本时，都需要激活虚拟环境）：
-
-   ```bash
-   source env/bin/activate  # Windows: env\Scripts\activate
-   ```
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-   **grvt 用户**：如果您想使用 grvt 交易所，需要额外安装 grvt 专用依赖：
-   激活虚拟环境（每次使用脚本时，都需要激活虚拟环境）：
-
-   ```bash
-   source env/bin/activate  # Windows: env\Scripts\activate
-   ```
-
-   ```bash
-   pip install grvt-pysdk
-   ```
-
-   **Paradex 用户**：如果您想使用 Paradex 交易所，需要额外创建一个虚拟环境并安装 Paradex 专用依赖：
-
-   首先确保你目前不在任何虚拟环境中：
-
-   ```bash
-   deactivate
-   ```
-
-   创建 Paradex 专用的虚拟环境（名称为 para_env）：
-
-   ```bash
-   python3 -m venv para_env
-   ```
-
-   激活虚拟环境（每次使用脚本时，都需要激活虚拟环境）：
-
-   ```bash
-   source para_env/bin/activate  # Windows: para_env\Scripts\activate
-   ```
-
-   安装 Paradex 依赖
-
-   ```bash
-   pip install -r para_requirements.txt
-   ```
-
-   **apex 用户**：如果您想使用 apex 交易所，需要额外安装 apex 专用依赖：
-   激活虚拟环境（每次使用脚本时，都需要激活虚拟环境）：
-
-   ```bash
-   source env/bin/activate  # Windows: env\Scripts\activate
-   ```
-
-   ```bash
-   pip install -r apex_requirements.txt
-   ```
-
-4. **设置环境变量**：
-   在项目根目录创建`.env`文件，并使用 env_example.txt 作为样本，修改为你的 api 密匙。
-
-5. **Telegram 机器人设置（可选）**：
-   如需接收交易通知，请参考 [Telegram 机器人设置指南](docs/telegram-bot-setup.md) 配置 Telegram 机器人。
-
-## 策略概述
-
-**重要提醒**：大家一定要先理解了这个脚本的逻辑和风险，这样你就能设置更适合你自己的参数，或者你也可能觉得这不是一个好策略，根本不想用这个策略来刷交易量。我在推特也说过，我不是为了分享而写这些脚本，而是我真的在用这个脚本，所以才写了，然后才顺便分享出来。
-这个脚本主要还是要看长期下来的磨损，只要脚本持续开单，如果一个月后价格到你被套的最高点，那么你这一个月的交易量就都是零磨损的了。所以我认为如果把`--quantity`和`--wait-time`设置的太小，并不是一个好的长期的策略，但确实适合短期内高强度冲交易量。我自己一般用 40 到 60 的 quantity，450 到 650 的 wait-time，以此来保证即使市场和你的判断想法，脚本依然能够持续稳定地下单，直到价格回到你的开单点，实现零磨损刷了交易量。
-
-该机器人实现了简单的交易策略：
-
-1. **订单下单**：在市场价格附近下限价单
-2. **订单监控**：等待订单成交
-3. **平仓订单**：在止盈水平自动下平仓单
-4. **持仓管理**：监控持仓和活跃订单
-5. **风险管理**：限制最大并发订单数
-6. **网格步长控制**：通过 `--grid-step` 参数控制新订单与现有平仓订单之间的最小价格距离
-7. **停止交易控制**：通过 `--stop-price` 参数控制停止交易的的价格条件
-
-#### ⚙️ 关键参数
-
-- **quantity**: 每笔订单的交易数量
-- **direction**: 脚本交易的方向，buy 表示看多，sell 表示看空
-- **take-profit**: 止盈百分比（如 0.02 表示 0.02%）
-- **max-orders**: 最大同时活跃订单数（风险控制）
-- **wait-time**: 订单间等待时间（避免过于频繁交易）
-- **grid-step**: 网格步长控制（防止平仓订单过于密集）
-- **stop-price**: 当市场价格达到该价格时退出脚本
-- **pause-price**: 当市场价格达到该价格时暂停脚本
-
-#### 网格步长功能详解
-
-`--grid-step` 参数用于控制新订单的平仓价格与现有平仓订单之间的最小距离：
-
-- **默认值 -100**：无网格步长限制，按原策略执行
-- **正值（如 0.5）**：新订单的平仓价格必须与最近的平仓订单价格保持至少 0.5% 的距离
-- **作用**：防止平仓订单过于密集，提高成交概率和风险管理
-
-例如，当看多且 `--grid-step 0.5` 时：
-
-- 如果现有平仓订单价格为 2000 USDT
-- 新订单的平仓价格必须低于 1990 USDT（2000 × (1 - 0.5%)）
-- 这样可以避免平仓订单过于接近，提高整体策略效果
-
-#### 📊 交易流程示例
-
-假设当前 ETH 价格为 $2000，设置止盈为 0.02%：
-
-1. **开仓**：在 $2000.40 下买单（略高于市价）
-2. **成交**：订单被市场成交，获得多头仓位
-3. **平仓**：立即在 $2000.80 下卖单（止盈价格）
-4. **完成**：平仓单成交，获得 0.02% 利润
-5. **重复**：继续下一轮交易
-
-#### 🛡️ 风险控制
-
-- **订单限制**：通过 `max-orders` 限制最大并发订单数
-- **网格控制**：通过 `grid-step` 确保平仓订单有合理间距
-- **下单频率控制**：通过 `wait-time` 确保下单的时间间隔，防止短时间内被套
-- **实时监控**：持续监控持仓和订单状态
-- **⚠️ 无止损机制**：此策略不包含止损功能，在不利市场条件下可能面临较大损失
-
-## 示例命令：
-
-### EdgeX 交易所：
-
-ETH：
+#### 使用 Docker Compose 一键启动
 
 ```bash
-python runbot.py --exchange edgex --ticker ETH --quantity 0.1 --take-profit 0.02 --max-orders 40 --wait-time 450
+# 构建并启动容器
+docker-compose up -d
+
+# 查看日志
+docker-compose logs -f
+
+# 停止容器
+docker-compose down
+
+# 重启容器
+docker-compose restart
 ```
 
-ETH（带网格步长控制）：
+#### 使用 Docker 命令启动
 
 ```bash
-python runbot.py --exchange edgex --ticker ETH --quantity 0.1 --take-profit 0.02 --max-orders 40 --wait-time 450 --grid-step 0.5
+# 构建镜像
+docker build -t perp-dex-tools .
+
+# 运行容器
+docker run -d -p 5000:5000 --name perp-dex-tools-web perp-dex-tools
+
+# 查看日志
+docker logs -f perp-dex-tools-web
+
+# 停止容器
+docker stop perp-dex-tools-web
+
+# 删除容器
+docker rm perp-dex-tools-web
 ```
 
-ETH（带停止交易的价格控制）：
+#### 配置说明
+
+Docker 容器会自动挂载以下目录：
+- 项目根目录到容器的 `/app` 目录（支持热重载）
+- `./logs` 目录到容器的 `/app/logs` 目录（日志持久化）
+
+环境变量配置：
+- `FLASK_ENV`: 开发环境（默认 development）
+- `FLASK_DEBUG`: 调试模式（默认 1）
+
+访问地址：`http://localhost:5000`
+
+### 方式二：本地安装
+
+#### 1. 安装依赖
 
 ```bash
-python runbot.py --exchange edgex --ticker ETH --quantity 0.1 --take-profit 0.02 --max-orders 40 --wait-time 450 --stop-price 5500
+pip install flask flask-cors
 ```
 
-BTC：
+#### 2. 启动Web服务器
 
+**Windows:**
 ```bash
-python runbot.py --exchange edgex --ticker BTC --quantity 0.05 --take-profit 0.02 --max-orders 40 --wait-time 450
+start_web.bat
 ```
 
-### Backpack 交易所：
-
-ETH 永续合约：
-
+**Linux/Mac:**
 ```bash
-python runbot.py --exchange backpack --ticker ETH --quantity 0.1 --take-profit 0.02 --max-orders 40 --wait-time 450
+python web_server.py
 ```
 
-ETH 永续合约（带网格步长控制）：
+#### 3. 访问界面
 
-```bash
-python runbot.py --exchange backpack --ticker ETH --quantity 0.1 --take-profit 0.02 --max-orders 40 --wait-time 450 --grid-step 0.3
+打开浏览器访问: `http://localhost:5000`
+
+## 使用指南
+
+### 预设配置
+
+为了方便快速启动交易机器人，系统提供了多个预设配置，涵盖了不同交易所和交易对的常用参数设置。
+
+#### 支持的预设配置
+
+**网格交易预设：**
+- EdgeX: ETH, BTC, SOL
+- Backpack: ETH, BTC, SOL
+- Apex: ETH, BTC
+- GRVT: ETH, BTC, SOL
+- Extended: ETH, BTC
+- Nado: ETH, BTC
+
+**对冲交易预设：**
+- EdgeX: ETH, BTC
+- Backpack: ETH, BTC
+- Apex: ETH, BTC
+- GRVT: ETH, BTC, SOL（包含 V2 版本）
+- Extended: ETH, BTC
+- Nado: ETH, BTC
+
+#### 使用预设配置
+
+1. 选择交易模式（网格交易或对冲交易）
+2. 从"预设配置"下拉菜单中选择一个预设
+3. 所有相关参数会自动填充到表单中
+4. 您可以根据需要手动调整参数
+5. 点击"启动机器人"按钮开始交易
+
+### 启动机器人
+
+1. 在"启动新机器人"表单中填写以下参数：
+   - **交易所**: 选择要使用的交易所
+   - **交易对**: 输入交易对符号（如 ETH, BTC, SOL）
+   - **交易方向**: 选择做多或做空
+   - **订单数量**: 每笔订单的数量
+   - **止盈**: 止盈百分比
+   - **最大订单数**: 最大同时活跃订单数
+   - **等待时间**: 订单间等待时间（秒）
+   - **网格步长**: 与下一个平仓订单价格的最小距离百分比（-100表示无限制）
+   - **停止价格**: 达到此价格时停止交易（-1表示不停止）
+   - **暂停价格**: 达到此价格时暂停交易（-1表示不暂停）
+   - **环境文件**: API密钥配置文件路径（默认.env）
+   - **Boost模式**: 启用快速交易模式（仅支持Backpack和Aster）
+
+2. 点击"启动机器人"按钮
+
+### 监控机器人
+
+- 在"运行中的机器人"区域可以查看所有机器人的实时状态
+- 显示信息包括：交易所、交易对、方向、活跃订单数
+- 点击"停止"按钮可以停止对应的机器人
+
+### 查看日志
+
+- 在"交易日志"区域可以查看所有机器人的交易日志
+- 可以通过下拉框筛选特定机器人的日志
+- 点击"刷新日志"按钮手动刷新日志
+- 日志每5秒自动刷新
+
+## API接口
+
+Web界面提供以下REST API接口：
+
+### 获取支持的交易所
+```
+GET /api/exchanges
 ```
 
-ETH 永续合约（启用 Boost 模式）：
+### 启动机器人
+```
+POST /api/bot/start
+Content-Type: application/json
 
-```bash
-python runbot.py --exchange backpack --ticker ETH --direction buy --quantity 0.1 --boost
+{
+  "exchange": "edgex",
+  "ticker": "ETH",
+  "direction": "buy",
+  "quantity": 0.1,
+  "takeProfit": 0.02,
+  "maxOrders": 40,
+  "waitTime": 450,
+  "gridStep": -100,
+  "stopPrice": -1,
+  "pausePrice": -1,
+  "envFile": ".env",
+  "boost": false
+}
 ```
 
-### Aster 交易所：
+### 停止机器人
+```
+POST /api/bot/stop
+Content-Type: application/json
 
-ETH：
-
-```bash
-python runbot.py --exchange aster --ticker ETH --quantity 0.1 --take-profit 0.02 --max-orders 40 --wait-time 450
+{
+  "bot_id": "edgex_ETH"
+}
 ```
 
-ETH（启用 Boost 模式）：
-
-```bash
-python runbot.py --exchange aster --ticker ETH --direction buy --quantity 0.1 --boost
+### 获取机器人状态
+```
+GET /api/bot/status?bot_id=edgex_ETH
 ```
 
-### GRVT 交易所：
-
-BTC：
-
-```bash
-python runbot.py --exchange grvt --ticker BTC --quantity 0.05 --take-profit 0.02 --max-orders 40 --wait-time 450
+### 获取机器人列表
+```
+GET /api/bot/list
 ```
 
-### Extended 交易所：
-
-ETH：
-
-```bash
-python runbot.py --exchange extended --ticker ETH --quantity 0.1 --take-profit 0 --max-orders 40 --wait-time 450 --grid-step 0.1
+### 获取日志
+```
+GET /api/logs?bot_id=edgex_ETH&limit=100
 ```
 
-## 🆕 对冲模式 (Hedge Mode)
+## 注意事项
 
-新增的对冲模式 (`hedge_mode.py`) 是一个新的交易策略，通过同时在两个交易所进行对冲交易来降低风险：
+1. 确保已正确配置.env文件中的API密钥
+2. 不同的交易所可能需要不同的Python版本
+3. Boost模式仅支持Backpack和Aster交易所
+4. 建议在测试环境先验证配置参数
+5. Web服务器默认运行在5000端口，如需修改请编辑web_server.py
 
-### 对冲模式工作原理
+## 故障排除
 
-1. **开仓阶段**：在选定交易所（如 Backpack）下 maker 订单
-2. **对冲阶段**：订单成交后，立即在 Lighter 下市价订单进行对冲
-3. **平仓阶段**：在选定交易所下另一个 maker 订单平仓
-4. **对冲平仓**：在 Lighter 下市价订单平仓
+### Docker 相关问题
 
-### 对冲模式优势
+#### 容器启动失败
+- 检查 Docker 是否正常运行：`docker ps`
+- 检查端口 5000 是否被占用：`netstat -ano | findstr :5000` (Windows) 或 `lsof -i :5000` (Linux/Mac)
+- 查看容器日志：`docker logs perp-dex-tools-web`
 
-- **风险降低**：通过同时持有相反头寸，降低单边市场风险
-- **交易量提升**：在两个交易所同时产生交易量
-- **套利机会**：利用两个交易所之间的价差
-- **自动化执行**：全自动化的对冲交易流程
+#### 无法访问 Web 界面
+- 确认容器正在运行：`docker ps`
+- 检查端口映射是否正确
+- 尝试访问 `http://localhost:5000` 或 `http://127.0.0.1:5000`
 
-### 对冲模式使用示例
+#### 日志文件未持久化
+- 确保 `./logs` 目录存在且有写权限
+- 检查 Docker 容器的卷挂载配置
 
-```bash
-# 运行 BTC 对冲模式（Backpack）
-python hedge_mode.py --exchange backpack --ticker BTC --size 0.05 --iter 20 --max-position 1
+#### 热重载不生效
+- Docker Compose 配置已启用卷挂载，代码修改会自动同步
+- 如需重启容器：`docker-compose restart`
 
-# 运行 ETH 对冲模式（Extended）
-python hedge_mode.py --exchange extended --ticker ETH --size 0.1 --iter 20
+### 本地安装相关问题
 
-# 运行 BTC 对冲模式（Apex）
-python hedge_mode.py --exchange apex --ticker BTC --size 0.05 --iter 20
+#### 无法启动Web服务器
+- 检查是否已安装Flask和Flask-CORS
+- 确保端口5000未被占用
 
-# 运行 BTC 对冲模式（GRVT）
-python hedge_mode.py --exchange grvt --ticker BTC --size 0.05 --iter 20
+### 机器人启动失败
+- 检查.env文件是否存在且配置正确
+- 确认交易所API密钥有效
+- 查看控制台错误信息
 
-# 运行 BTC 对冲模式（edgeX）
-python hedge_mode.py --exchange edgex --ticker BTC --size 0.001 --iter 20
-```
+### 日志不显示
+- 检查logs目录是否存在
+- 确认机器人已成功启动并产生交易
 
-### 对冲模式参数
+## 技术栈
 
-- `--exchange`: 主要交易所（支持 'backpack', 'extended', 'apex', 'grvt', 'edgex'）
-- `--ticker`: 交易对符号（如 BTC, ETH）
-- `--size`: 每笔订单数量
-- `--iter`: 交易循环次数
-- `--fill-timeout`: maker 订单填充超时时间（秒，默认 5）
-- `--sleep`: 每一笔交易之后的暂停时间，增加持仓时间（秒，默认 0）
-- `--max-position`: 当设置了这个参数后，对冲模式会在对冲的同时逐渐建仓到设置的最大仓位，单位是币本位，比如在跑btc时设置0.1，就是指逐渐建仓到0.1btc，并逐渐建仓。达到这个最大仓位后，会逐渐建仓，以此循环。
+- **后端**: Flask (Python)
+- **前端**: HTML5, CSS3, JavaScript (ES6+)
+- **样式**: 自定义CSS（响应式设计）
+- **通信**: REST API + AJAX
 
-## 配置
+## 开发
 
-### 环境变量
-
-#### 通用配置
-
-- `ACCOUNT_NAME`: 环境变量中当前账号的名称，用于多账号日志区分，可自定义，非必须
-
-#### Telegram 配置（可选）
-
-- `TELEGRAM_BOT_TOKEN`: Telegram 机器人令牌
-- `TELEGRAM_CHAT_ID`: Telegram 对话 ID
-
-#### EdgeX 配置
-
-- `EDGEX_ACCOUNT_ID`: 您的 EdgeX 账户 ID
-- `EDGEX_STARK_PRIVATE_KEY`: 您的 EdgeX API 私钥
-- `EDGEX_BASE_URL`: EdgeX API 基础 URL（默认：https://pro.edgex.exchange）
-- `EDGEX_WS_URL`: EdgeX WebSocket URL（默认：wss://quote.edgex.exchange）
-
-#### Backpack 配置
-
-- `BACKPACK_PUBLIC_KEY`: 您的 Backpack API Key
-- `BACKPACK_SECRET_KEY`: 您的 Backpack API Secret
-
-#### Paradex 配置
-
-- `PARADEX_L1_ADDRESS`: L1 钱包地址
-- `PARADEX_L2_PRIVATE_KEY`: L2 钱包私钥（点击头像，钱包，"复制 paradex 私钥"）
-
-#### Aster 配置
-
-- `ASTER_API_KEY`: 您的 Aster API Key
-- `ASTER_SECRET_KEY`: 您的 Aster API Secret
-
-#### Lighter 配置
-
-- `API_KEY_PRIVATE_KEY`: Lighter API 私钥
-- `LIGHTER_ACCOUNT_INDEX`: Lighter 账户索引
-- `LIGHTER_API_KEY_INDEX`: Lighter API 密钥索引
-
-#### GRVT 配置
-
-- `GRVT_TRADING_ACCOUNT_ID`: 您的 GRVT 交易账户 ID
-- `GRVT_PRIVATE_KEY`: 您的 GRVT 私钥
-- `GRVT_API_KEY`: 您的 GRVT API 密钥
-
-#### Extended 配置
-
-- `EXTENDED_API_KEY`: Extended API Key
-- `EXTENDED_STARK_KEY_PUBLIC`: 创建API后显示的 Stark 公钥
-- `EXTENDED_STARK_KEY_PRIVATE`: 创建API后显示的 Stark 私钥
-- `EXTENDED_VAULT`: 创建API后显示的 Extended Vault ID
-
-#### Apex 配置
-
-- `APEX_API_KEY`: 您的 Apex API 密钥
-- `APEX_API_KEY_PASSPHRASE`: 您的 Apex API 密钥密码
-- `APEX_API_KEY_SECRET`: 您的 Apex API 密钥私钥
-- `APEX_OMNI_KEY_SEED`: 您的 Apex Omni 密钥种子
-
-#### Nado 配置
-
-- `NADO_PRIVATE_KEY`: 您的钱包私钥
-- `NADO_MODE`: 网络模式（MAINNET 或 DEVNET，默认：MAINNET）
-
-**获取 LIGHTER_ACCOUNT_INDEX 的方法**：
-
-1. 在下面的网址最后加上你的钱包地址：
-
-   ```
-   https://mainnet.zklighter.elliot.ai/api/v1/account?by=l1_address&value=
-   ```
-
-2. 在浏览器中打开这个网址
-
-3. 在结果中搜索 "account_index" - 如果你有子账户，会有多个 account_index，短的那个是你主账户的，长的是你的子账户。
-
-### 命令行参数
-
-- `--exchange`: 使用的交易所：'edgex'、'backpack'、'paradex'、'aster'、'lighter'、'grvt'、'extended' 或 'nado'（默认：edgex）
-- `--ticker`: 标的资产符号（例如：ETH、BTC、SOL）。合约 ID 自动解析。
-- `--quantity`: 订单数量（默认：0.1）
-- `--take-profit`: 止盈百分比（例如 0.02 表示 0.02%）
-- `--direction`: 交易方向：'buy'或'sell'（默认：buy）
-- `--env-file`: 账户配置文件 (默认：.env)
-- `--max-orders`: 最大活跃订单数（默认：40）
-- `--wait-time`: 订单间等待时间（秒）（默认：450）
-- `--grid-step`: 与下一个平仓订单价格的最小距离百分比（默认：-100，表示无限制）
-- `--stop-price`: 当 `direction` 是 'buy' 时，当 price >= stop-price 时停止交易并退出程序；'sell' 逻辑相反（默认：-1，表示不会因为价格原因停止交易），参数的目的是防止订单被挂在”你认为的开多高点或开空低点“。
-- `--pause-price`: 当 `direction` 是 'buy' 时，当 price >= pause-price 时暂停交易，并在价格回到 pause-price 以下时重新开始交易；'sell' 逻辑相反（默认：-1，表示不会因为价格原因停止交易），参数的目的是防止订单被挂在”你认为的开多高点或开空低点“。
-- `--boost`: 启用 Boost 模式进行交易量提升（仅适用于 aster 和 backpack 交易所）
-  Boost 模式的下单逻辑：下 maker 单开仓，成交后立即用 taker 单关仓，以此循环。磨损为一单 maker，一单 taker 的手续费，以及滑点。
-
-## 日志记录
-
-该机器人提供全面的日志记录：
-
-- **交易日志**：包含订单详情的 CSV 文件
-- **调试日志**：带时间戳的详细活动日志
-- **控制台输出**：实时状态更新
-- **错误处理**：全面的错误日志记录和处理
-
-## Q & A
-
-### 如何在同一设备配置同一交易所的多个账号？
-
-1. 为每个账户创建一个 .env 文件，如 account_1.env, account_2.env
-2. 在每个账户的 .env 文件中设置 `ACCOUNT_NAME=`, 如`ACCOUNT_NAME=MAIN`。
-3. 在每个文件中配置好每个账户的 API key 或是密匙
-4. 通过更改命令行中的 `--env-file` 参数来开始不同的账户，如 `python runbot.py --env-file account_1.env [其他参数...]`
-
-### 如何在同一设备配置不同交易所的多个账号？
-
-将不同交易所的账号都配置在同一 `.env` 文件后，通过更改命令行中的 `--exchange` 参数来开始不同的交易所，如 `python runbot.py --exchange backpack [其他参数...]`
-
-### 如何在同一设备用同一账号配置同一交易所的多个合约？
-
-将账号配置在 `.env` 文件后，通过更改命令行中的 `--ticker` 参数来开始不同的合约，如 `python runbot.py --ticker ETH [其他参数...]`
-
-## 贡献
-
-1. Fork 仓库
-2. 创建功能分支
-3. 进行更改
-4. 如适用，添加测试
-5. 提交拉取请求
-
-## 许可证
-
-本项目采用非商业许可证 - 详情请参阅[LICENSE](LICENSE)文件。
-
-**重要提醒**：本软件仅供个人学习和研究使用，严禁用于任何商业用途。如需商业使用，请联系作者获取商业许可证。
-
-## 免责声明
-
-本软件仅供教育和研究目的。加密货币交易涉及重大风险，可能导致重大财务损失。使用风险自负，切勿用您无法承受损失的资金进行交易。
+如需修改界面样式，请编辑 `static/style.css`
+如需修改前端逻辑，请编辑 `static/app.js`
+如需修改后端API，请编辑 `web_server.py`
