@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交易机器人控制面板</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>交易机器人控制面板</h1>
+                <p class="subtitle">支持多个交易所的自动化交易</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="form-section">
+                <h2>启动新机器人</h2>
+                <form id="botForm">
+                    <div class="form-group">
+                        <label for="mode">交易模式</label>
+                        <select id="mode" name="mode" required>
+                            <option value="grid">网格交易 (Grid Trading)</option>
+                            <option value="hedge">对冲交易 (Hedge Trading)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preset">预设配置</label>
+                        <select id="preset" name="preset">
+                            <option value="">自定义配置</option>
+                        </select>
+                        <small class="help-text">选择预设配置将自动填充参数</small>
+                    </div>
+
+                    <div id="gridModeFields">
+                        <div class="form-group">
+                            <label for="exchange">交易所</label>
+                            <select id="exchange" name="exchange" required>
+                                <option value="">选择交易所</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ticker">交易对</label>
+                            <input type="text" id="ticker" name="ticker" value="ETH" required placeholder="例如: ETH, BTC, SOL">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="direction">交易方向</label>
+                            <select id="direction" name="direction" required>
+                                <option value="buy">做多 (Buy)</option>
+                                <option value="sell">做空 (Sell)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="quantity">订单数量</label>
+                                <input type="number" id="quantity" name="quantity" value="0.1" step="0.01" min="0.01" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="takeProfit">止盈 (%)</label>
+                                <input type="number" id="takeProfit" name="takeProfit" value="0.02" step="0.01" min="0" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="maxOrders">最大订单数</label>
+                                <input type="number" id="maxOrders" name="maxOrders" value="40" min="1" max="100" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="waitTime">等待时间 (秒)</label>
+                                <input type="number" id="waitTime" name="waitTime" value="450" min="1" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="gridStep">网格步长 (%)</label>
+                                <input type="number" id="gridStep" name="gridStep" value="-100" step="0.1" required>
+                                <small class="help-text">-100 表示无限制</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="stopPrice">停止价格</label>
+                                <input type="number" id="stopPrice" name="stopPrice" value="-1" step="0.01" required>
+                                <small class="help-text">-1 表示不停止</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pausePrice">暂停价格</label>
+                                <input type="number" id="pausePrice" name="pausePrice" value="-1" step="0.01" required>
+                                <small class="help-text">-1 表示不暂停</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="envFile">环境文件</label>
+                                <input type="text" id="envFile" name="envFile" value=".env" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="boost" name="boost">
+                                启用 Boost 模式 (仅支持 Backpack 和 Aster)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="hedgeModeFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="hedgeExchange">交易所</label>
+                            <select id="hedgeExchange" name="hedgeExchange" required>
+                                <option value="">选择交易所</option>
+                                <option value="backpack">Backpack</option>
+                                <option value="extended">Extended</option>
+                                <option value="apex">Apex</option>
+                                <option value="grvt">GRVT</option>
+                                <option value="edgex">edgeX</option>
+                                <option value="nado">Nado</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hedgeTicker">交易对</label>
+                            <input type="text" id="hedgeTicker" name="hedgeTicker" value="BTC" required placeholder="例如: BTC, ETH">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="size">订单数量</label>
+                                <input type="number" id="size" name="size" value="0.01" step="0.001" min="0.001" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="iterations">迭代次数</label>
+                                <input type="number" id="iterations" name="iterations" value="20" min="1" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fillTimeout">填充超时 (秒)</label>
+                                <input type="number" id="fillTimeout" name="fillTimeout" value="5" min="1" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sleepTime">睡眠时间 (秒)</label>
+                                <input type="number" id="sleepTime" name="sleepTime" value="0" min="0" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="maxPosition">最大持仓</label>
+                                <input type="number" id="maxPosition" name="maxPosition" value="0" step="0.001" min="0" required>
+                                <small class="help-text">0 表示不限制</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="hedgeEnvFile">环境文件</label>
+                                <input type="text" id="hedgeEnvFile" name="hedgeEnvFile" value=".env" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group checkbox-group" id="v2CheckboxGroup" style="display: none;">
+                            <label>
+                                <input type="checkbox" id="v2" name="v2">
+                                使用 v2 实现 (仅 GRVT)
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">启动机器人</button>
+                </form>
+            </div>
+
+            <div class="bots-section">
+                <h2>运行中的机器人</h2>
+                <div id="botsList" class="bots-list">
+                    <p class="no-data">暂无运行中的机器人</p>
+                </div>
+            </div>
+
+            <div class="logs-section">
+                <h2>交易日志</h2>
+                <div class="logs-controls">
+                    <select id="logBotId">
+                        <option value="">所有机器人</option>
+                    </select>
+                    <button id="refreshLogs" class="btn btn-secondary">刷新日志</button>
+                </div>
+                <div id="logsContainer" class="logs-container">
+                    <p class="no-data">暂无日志</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

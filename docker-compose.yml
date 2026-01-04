@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  trading-bot-web:
+    build: .
+    container_name: perp-dex-tools-web
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    restart: unless-stopped
+    stdin_open: true
+    tty: true

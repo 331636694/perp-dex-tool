@@ -1,0 +1,33 @@
+python-dotenv>=1.0.0
+pytz>=2025.2
+asyncio==4.0.0
+aiohttp>=3.8.0
+websocket-client>=1.6.0
+pydantic>=1.8.0
+pycryptodome>=3.15.0
+ecdsa>=0.17.0
+requests==2.32.5
+eval_type_backport
+tenacity>=9.1.2
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# Backpack Trading Bot Dependencies
+websockets>=12.0
+cryptography>=41.0.0
+bpx-py==2.0.11
+
+# Forked edgeX official python sdk with post_only limit order
+git+https://github.com/your-quantguy/edgex-python-sdk.git@07425f7522be5845399264682580c88019ab9e52#egg=edgex-python-sdk
+
+# tools
+tenacity>=9.1.2
+
+# Lighter exchange SDK
+lighter-sdk==0.1.4
+
+# Extended exchange SDK
+x10-python-trading-starknet==0.0.10
+
+# Nado Protocol SDK
+git+https://github.com/your-quantguy/nado-python-sdk.git@7728e97dd030cf744f08afdc0637f7e63b7527e3
